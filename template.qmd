@@ -1,0 +1,33 @@
+---
+title: "aa-tRNA-seq analysis"
+author: "First Last"
+date: last-modified
+
+format:
+  html:
+    toc: true
+    code-fold: true
+    embed-resources: true
+    monofont: "Fira Code"
+
+# include a bibliography file
+bibliography: ref/bib/refs.bib
+csl: ref/bib/national-library-of-medicine-grant-proposals.csl
+theme: custom.scss
+---
+
+## Analysis setup
+
+```{r}
+#| label: load-libraries
+#| message: false
+library(tidyverse)
+library(here)
+library(cowplot)
+library(ggrepel)
+library(scales)
+
+theme_set(theme_cowplot())
+```
+
+## Differential expression

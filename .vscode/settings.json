@@ -1,0 +1,19 @@
+{
+    "[r]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "Posit.air-vscode"
+    },
+    "cSpell.words": [
+        "cowplot",
+        "CRAN",
+        "Fira",
+        "ggrepel",
+        "monofont",
+        "renv",
+        "rnabioco",
+        "tidyverse"
+    ],
+    "cSpell.ignorePaths": [
+        "renv.lock"
+    ]   "CRAN",
+}
