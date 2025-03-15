@@ -47,3 +47,8 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+# Quarto components
+/.quarto/
+/_site/
+/_extensions/
