@@ -6,6 +6,11 @@
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "Posit.air-vscode"
     },
+    "markdownlint.config": {
+        "first-line-h1": false,
+        "single-h1": false,
+        "blanks-around-fenced-divs": true
+    },
     "cSpell.words": [
         "cowplot",
         "CRAN",
@@ -17,6 +22,7 @@
         "tidyverse"
     ],
     "cSpell.ignorePaths": [
-        "renv.lock"
-    ]   "CRAN",
+        "renv.lock",
+        "CRAN"
+    ]
 }
