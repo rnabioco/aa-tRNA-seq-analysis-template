@@ -23,12 +23,79 @@ theme: custom.scss
 #| message: false
 library(tidyverse)
 library(here)
+library(glue)
+library(fs)
 library(cowplot)
 library(ggrepel)
+library(ggokabeito)
 library(ggtext)
 library(scales)
 
 theme_set(theme_cowplot())
 ```
 
-## Differential expression
+## Quality control
+
+These plots show overall quality metrics of raw and processed data, through base-calling, alignment, and classification.
+
+```{r}
+#| label: qc-load-data
+#| message: false
+gt <- "leuaux"
+cond <- c("SC", "minusleu")
+time <- c("15m", "60m")
+rep <- c("rep1", "rep2", "rep3")
+
+data_dir <- here("data/yeast-leuaux/summary")
+
+raw_tbl <-
+  crossing(gt, cond, time, rep) |>
+  mutate(
+    sample = glue("{gt}_{cond}_{time}_{rep}"),
+    file = path(
+      data_dir,
+      glue("tables/{sample}/{sample}.align_stats.tsv.gz")
+    ),
+    tbl = map(file, read_tsv, show_col_types = FALSE)
+  )
+
+qc_tbl <-
+  raw_tbl |>
+  select(-sample, -file) |>
+  unnest(c(tbl)) |>
+  select(-bam_file)
+```
+
+
+```{r}
+#| label: fig-qc-plots
+#| fig.height: 3
+#| fig.width: 5
+plot_read_info <- function(qc_tbl) {
+  info_levels <- rev(c("unmapped", "aligned", "classified"))
+
+  ggplot(
+    qc_tbl,
+    aes(
+      x = n_reads / 1e6,
+      y = time
+    )
+  ) +
+    geom_col(
+      aes(fill = fct_relevel(info, info_levels)),
+      position = "dodge"
+    ) +
+    facet_grid(cond ~ rep, scales = "free_x") +
+    scale_fill_okabe_ito() +
+    labs(
+      x = "Read number (x10^6)",
+      y = ""
+    ) +
+    theme(
+      legend.position = "top",
+      legend.title = element_blank()
+    )
+}
+
+plot_read_info(qc_tbl)
+```
